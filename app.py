@@ -52,6 +52,8 @@ selected_month = st.sidebar.selectbox(
     format_func=lambda x: month_names[x]
 )
 
+st.write("Selected Year:", selected_year)
+st.write("Selected Month:", selected_month)
 
 
 # =============================
@@ -169,6 +171,7 @@ WHERE YEAR(transaction_date) = {selected_year}
 GROUP BY category
 """
 df_avg = session.sql(avg_q).to_pandas()
+
 
 
 
