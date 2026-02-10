@@ -149,15 +149,16 @@ st.bar_chart(df_discount, x="CATEGORY", y="AVG_DISCOUNT")
 # =============================
 st.header("📆 Year Wise Spend")
 
-year_q = f"""
+year_q = """
 SELECT
     YEAR(transaction_date) AS year,
     SUM(net_amount) AS total_spend
 FROM FACT_PROCUREMENT_SPEND
-WHERE YEAR(transaction_date) = {selected_year}
 GROUP BY year
+ORDER BY year
 """
 df_year = session.sql(year_q).to_pandas()
+
 st.bar_chart(df_year, x="YEAR", y="TOTAL_SPEND")
 
 
@@ -179,6 +180,7 @@ GROUP BY category
 """
 df_avg = session.sql(avg_q).to_pandas()
 st.dataframe(df_avg)
+
 
 
 
