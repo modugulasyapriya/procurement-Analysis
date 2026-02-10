@@ -19,6 +19,52 @@ session = Session.builder.configs(
 ).create()
 
 # =============================
+# FILTERS (Year & Month)
+# =============================
+st.sidebar.header("Filters")
+
+year_df = session.sql("""
+    SELECT DISTINCT YEAR(transaction_date) AS year
+    FROM FACT_PROCUREMENT_SPEND
+    ORDER BY year
+""").to_pandas()
+
+years = year_df["YEAR"].tolist()
+selected_year = st.sidebar.selectbox("Select Year", years)
+
+month_df = session.sql(f"""
+    SELECT DISTINCT MONTH(transaction_date) AS month
+    FROM FACT_PROCUREMENT_SPEND
+    WHERE YEAR(transaction_date) = {selected_year}
+    ORDER BY month
+""").to_pandas()
+
+months = month_df["MONTH"].tolist()
+
+month_names = {
+    1:"Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"May", 6:"Jun",
+    7:"Jul", 8:"Aug", 9:"Sep", 10:"Oct", 11:"Nov", 12:"Dec"
+}
+
+selected_month = st.sidebar.selectbox(
+    "Select Month",
+    months,
+    format_func=lambda x: month_names[x]
+)
+
+# =============================
+# MONTHLY SPEND
+# =============================
+st.header("📅 Monthly Spend Trend")
+
+monthly_q = f"""
+SELECT ...
+WHERE YEAR(transaction_date) = {selected_year}
+  AND MONTH(transaction_date) = {selected_month}
+"""
+
+
+# =============================
 # MONTHLY SPEND
 # =============================
 st.header("📅 Monthly Spend Trend")
@@ -139,3 +185,4 @@ df_avg = session.sql(avg_q).to_pandas()
 
 st.line_chart(df_avg, x="YEAR", y="AVG_SPEND_PER_TXN")
 st.dataframe(df_avg, use_container_width=True)
+
