@@ -106,6 +106,8 @@ GROUP BY city
 ORDER BY total_spend DESC
 """
 df_city = session.sql(city_q).to_pandas()
+st.bar_chart(df_city, x="CITY", y="TOTAL_SPEND")
+
 
 # =============================
 # VENDOR WISE SPEND
@@ -123,6 +125,7 @@ GROUP BY v.vendor_name
 ORDER BY vendor_spend DESC
 """
 df_vendor = session.sql(vendor_q).to_pandas()
+st.bar_chart(df_vendor, x="VENDOR_NAME", y="VENDOR_SPEND")
 
 
 # =============================
@@ -138,6 +141,8 @@ WHERE YEAR(transaction_date) = {selected_year}
 GROUP BY category
 """
 df_discount = session.sql(discount_q).to_pandas()
+st.bar_chart(df_discount, x="CATEGORY", y="AVG_DISCOUNT")
+
 
 # =============================
 # YEAR WISE SPEND
@@ -153,6 +158,8 @@ WHERE YEAR(transaction_date) = {selected_year}
 GROUP BY year
 """
 df_year = session.sql(year_q).to_pandas()
+st.bar_chart(df_year, x="YEAR", y="TOTAL_SPEND")
+
 
 # =============================
 # AVERAGE ANALYSIS
@@ -171,6 +178,9 @@ WHERE YEAR(transaction_date) = {selected_year}
 GROUP BY category
 """
 df_avg = session.sql(avg_q).to_pandas()
+st.dataframe(df_avg)
+
+
 
 
 
