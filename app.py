@@ -52,16 +52,6 @@ selected_month = st.sidebar.selectbox(
     format_func=lambda x: month_names[x]
 )
 
-# =============================
-# MONTHLY SPEND
-# =============================
-st.header("📅 Monthly Spend Trend")
-
-monthly_q = f"""
-SELECT ...
-WHERE YEAR(transaction_date) = {selected_year}
-  AND MONTH(transaction_date) = {selected_month}
-"""
 
 
 # =============================
@@ -185,4 +175,5 @@ df_avg = session.sql(avg_q).to_pandas()
 
 st.line_chart(df_avg, x="YEAR", y="AVG_SPEND_PER_TXN")
 st.dataframe(df_avg, use_container_width=True)
+
 
