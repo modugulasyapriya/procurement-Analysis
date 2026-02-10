@@ -5,11 +5,11 @@ from snowflake.snowpark import Session
 # Page config
 # -----------------------------
 st.set_page_config(
-    page_title="Procurement Spend Dashboard",
+    page_title="Procurement Analysis",
     layout="wide"
 )
 
-st.title("📊 Procurement Spend Dashboard")
+st.title("📊 Procurement Analysis")
 
 # -----------------------------
 # Snowflake Connection
@@ -175,5 +175,6 @@ df_avg = session.sql(avg_q).to_pandas()
 
 st.line_chart(df_avg, x="YEAR", y="AVG_SPEND_PER_TXN")
 st.dataframe(df_avg, use_container_width=True)
+
 
 
